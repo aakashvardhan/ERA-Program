@@ -111,8 +111,49 @@ def train(model,device,train_loader,optimizer,criterion):
   - model: Neural Network class(i.e, model = Net().to(device))
   - device: Allow training the model using a specific GPU(eg: CUDA, M1.etc) or CPU
   - train_loader: "Retrieves the MNIST dataset's features and labels one sample at a time"(Cited:[Data Loader](https://pytorch.org/tutorials/beginner/basics/data_tutorial.html)) (i.e, train_loader = torch.utils.data.DataLoader(train_data, **kwargs))
-  - optimizer
+  - optimizer: Used to adapt the NN's attributes such as weights and learning rate, which helps reduce generalization error (i.e, optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)). 
+  - criterion: Computes CrossEntropy Loss function
 
+- This function iterates through the training MNIST data:
+
+```python
+data, target = data.to(device), target.to(device)
+# The input data and its corresponding labels are moved to the GPU(i.e, mps:0)
+```
+```python
+optimizer.zero_grad()
+# Used to reset the gradient before performing backpropogation
+```
+    
+```python
+pred = model(data)
+# Forward pass is done in order to obtain predictions
+```
+
+```python 
+loss = criterion(pred, target)
+train_loss+=loss.item()
+# Calculates the Cross Entropy Loss using the predicted values and ground truth values
+```
+```python
+loss.backward()
+optimizer.step()
+# Backpropogation is done by computing gradients using Stochastic Gradient Descent
+```
+```python
+correct += GetCorrectPredCount(pred, target)
+processed += len(data)
+
+train_acc.append(100*correct/processed)
+train_losses.append(train_loss/len(train_loader))
+
+# Training Accuracy and Training loss is kept tracked
+```
+
+```python
+def test(model,device,test_loader,criterion):
+    ...
+```
 
 
 
