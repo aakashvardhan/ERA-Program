@@ -24,15 +24,15 @@ stride: Stride of the Pooling operation
 MaxPooling is a simple solution in reducing the number of layers, which does so by increasing the receptive field.
 
 ### Convolutional Layer 1
-
+- This is the input layer
 ```python
 self.conv1 = nn.Conv2d(1, 32, kernel_size=3)
 x = F.relu(self.conv1(x), 2)
 ```
-Input Channel: 1 (Greyscale Image)
-Output Channel: 32
-Kernel Size: 3x3
-Activation Function: ReLU
+- Input Channel: 1 (Greyscale Image)
+- Output Channel: 32
+- Kernel Size: 3x3
+- Activation Function: ReLU
 
 ### Convolutional Layer 2
 
@@ -40,13 +40,78 @@ Activation Function: ReLU
 self.conv2 = nn.Conv2d(32, 64, kernel_size=3)
 x = F.relu(F.max_pool2d(self.conv2(x), 2))
 ```
-Input Channel: 32
-Output Channel: 64
-Kernel Size: 3x3
-Max Pool: 2x2
-Activation Function: ReLU
+- Input Channel: 32
+- Output Channel: 64
+- Kernel Size: 3x3
+- Max Pool: 2x2
+- Activation Function: ReLU
+
+### Convolutional Layer 3
+
+```python
+self.conv3 = nn.Conv2d(64, 128, kernel_size=3)
+x = F.relu(self.conv3(x), 2)
+```
+- Input Channel: 64
+- Output Channel: 128
+- Kernel Size: 3x3
+- Max Pool: 2x2
+- Activation Function: ReLU
+
+### Convolutional Layer 4
+
+```python
+self.conv4 = nn.Conv2d(128, 256, kernel_size=3)
+x = F.relu(F.max_pool2d(self.conv4(x), 2)) 
+```
+- Input Channel: 64
+- Output Channel: 128
+- Kernel Size: 3x3
+- Max Pool: 2x2
+- Activation Function: ReLU
+
+### Fully Connected Layer 1
+
+```python
+self.fc1 = nn.Linear(4096, 50)
+x = F.relu(self.fc1(x))
+```
+- Input Channel: 4096
+  - This input channel is a feature map flattened(4x4x256).
+
+- Output Channel: 50
+- Activation Function: ReLU
+
+### Fully Connected Layer 2
+- This is the Output Layer
+```python
+self.fc2 = nn.Linear(50, 10)
+x = self.fc2(x)
+```
+- Input Channel: 50
+- Output Channel: 10
+  - Number of classes(10 digits)
+
+*The Log Softmax activation function gives the output of the 2nd fully connected layer*
+
+## Utility Function - [utils.py](https://github.com/aakashvardhan/ERA-Program/blob/master/S5%20-%20Assignment/utils.py)
+
+```python
+def GetCorrectPredCount(pPrediction, pLabels):
+  return pPrediction.argmax(dim=1).eq(pLabels).sum().item()
+```
+- This function gives the calculation of the number of correct predictions using the predicted values and its corresponding truth label (1).
 
 
+```python
+def train(model,device,train_loader,optimizer,criterion):
+    ...
+```
+- Parameters:
+  - model: Neural Network class(i.e, model = Net().to(device))
+  - device: Allow training the model using a specific GPU(eg: CUDA, M1.etc) or CPU
+  - train_loader: "Retrieves the MNIST dataset's features and labels one sample at a time"(Cited:[Data Loader](https://pytorch.org/tutorials/beginner/basics/data_tutorial.html)) (i.e, train_loader = torch.utils.data.DataLoader(train_data, **kwargs))
+  - optimizer
 
 
 
