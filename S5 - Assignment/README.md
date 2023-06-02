@@ -154,6 +154,16 @@ train_losses.append(train_loss/len(train_loader))
 def test(model,device,test_loader,criterion):
     ...
 ```
+- Parameters:
+  - *Explained earlier in train()*
 
+```python
+model.eval()
+# Used to set to evaluation mode by not computing gradient
+```
+*This function has similar iteration process as train() where it obtains the predictions and calculate the test loss and test accuracy. However backpropagation is not performed.*
 
-
+```python
+def plt_fig(...):
+  # Plots the training/testing accuracy/loss
+```
