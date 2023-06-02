@@ -1,5 +1,6 @@
 # Digit Classification using Pytorch Framework and MNIST Dataset
-
+## Getting Started
+- Open S5.ipynb and Run all the cells to get model ouput
 ## Model Architecture - [model.py](https://github.com/aakashvardhan/ERA-Program/blob/master/S5%20-%20Assignment/model.py)
 
 Args:
